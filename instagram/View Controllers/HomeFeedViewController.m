@@ -6,8 +6,10 @@
 //
 
 #import "HomeFeedViewController.h"
+#import "Parse/Parse.h"
 
 @interface HomeFeedViewController ()
+- (IBAction)didTapLogout:(id)sender;
 
 @end
 
@@ -27,30 +29,11 @@
     // Pass the selected object to the new view controller.
     
 }
- 
- 
- /*
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-     // Get the new view controller using [segue destinationViewController].
-     // Pass the selected object to the new view controller.
 
-     if([segue.identifier isEqual:@"TweetSegue"]){
-         UINavigationController *navigationController = [segue destinationViewController];
-         ComposeViewController *composeController = (ComposeViewController *)navigationController.topViewController;
-         composeController.delegate = self;
-     }
-     else if([segue.identifier isEqual:@"TweetDetailSegue"]){
-         UITableViewCell *tappedCell = sender;
-         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-         
-         UINavigationController *navigationController = [segue destinationViewController];
-         Tweet *tweetDetails = self.tweets[indexPath.row];
-         //DetailsViewController *detailsViewController = (DetailsViewController *)navigationController.topViewController;
-         DetailsViewController *detailsViewController = (DetailsViewController *)navigationController.childViewControllers.firstObject;
-         detailsViewController.tweet = tweetDetails;
-     }
- }
-
-*/
-
+- (IBAction)didTapLogout:(id)sender {
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        // PFUser.current() will now be nil
+    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end
