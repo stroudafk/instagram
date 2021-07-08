@@ -7,10 +7,15 @@
 
 #import "HomeFeedViewController.h"
 #import "Parse/Parse.h"
+#import "PostCell.h"
+#import "Post.h"
+#import "UIImageView+AFNetworking.h"
 
-@interface HomeFeedViewController ()
+@interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource>
 - (IBAction)didTapLogout:(id)sender;
 - (IBAction)didTapNewPost:(id)sender;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *posts;
 
 
 @end
@@ -21,7 +26,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    [self fetchPosts];
     // Do any additional setup after loading the view.
+    [self.tableView reloadData];
 }
 
 
@@ -44,4 +54,36 @@
     }];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    PostCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
+    
+    Post *post = self.posts[indexPath.section];
+    cell.captionLabel.text = post.caption;
+    
+    NSURL *imageURL = [NSURL URLWithString:post.image.url];
+    [cell.postImage setImageWithURL:imageURL];
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.posts count];
+}
+
+- (void) fetchPosts{
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query orderByDescending:@"createdAt"];
+    query.limit = 20;
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if (posts) {
+            self.posts = posts;
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+        
+    }];
+}
+
 @end

@@ -29,7 +29,8 @@
 }
 
 - (IBAction)didTapCancel:(id)sender{
-    [self dismissViewControllerAnimated:true completion:nil];
+//    [self dismissViewControllerAnimated:true completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)didTapPost:(id)sender {
@@ -77,6 +78,7 @@
 }
 
 - (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size {
+    
     UIImageView *resizeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     
     resizeImageView.contentMode = UIViewContentModeScaleAspectFill;
