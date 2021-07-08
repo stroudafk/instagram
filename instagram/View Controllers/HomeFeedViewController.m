@@ -10,10 +10,14 @@
 
 @interface HomeFeedViewController ()
 - (IBAction)didTapLogout:(id)sender;
+- (IBAction)didTapNewPost:(id)sender;
+
 
 @end
 
 @implementation HomeFeedViewController
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,6 +32,10 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
+}
+
+- (IBAction)didTapNewPost:(id)sender {
+    //TODO: open NewPostViewController
 }
 
 - (IBAction)didTapLogout:(id)sender {

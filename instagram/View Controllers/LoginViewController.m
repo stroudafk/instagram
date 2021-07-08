@@ -16,6 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
     // Do any additional setup after loading the view.
 }
 
@@ -64,8 +66,6 @@
             NSLog(@"Error: %@", error.localizedDescription);
         } else {
             NSLog(@"User registered successfully");
-            
-            //TODO: show banner "please enter a username/password" if username or password fields are empty
             
             // manually segue to logged in view
             [self performSegueWithIdentifier:@"loginSegue" sender:nil];

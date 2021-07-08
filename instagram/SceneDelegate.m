@@ -30,9 +30,11 @@
     
     
     if (PFUser.currentUser) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
-        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"HomeFeedViewController"];
+        //TODO: create ui storyboard and set it equal to the main storyboard, then set the current window's rootView Controller to HomeFeedViewController
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//
+//        self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"HomeFeedViewController"];
     }
 }
 
