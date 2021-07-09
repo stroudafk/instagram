@@ -45,8 +45,6 @@
     if (!imageData) {
         return nil;
     }
-    
-    //TODO: Ask if I was right to change from PFObject and fileWithData to the below line
 
     return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 }

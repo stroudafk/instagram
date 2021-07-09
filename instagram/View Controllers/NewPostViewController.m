@@ -45,7 +45,7 @@
         }
         else{
             NSLog(@"Failed to post");
-            //todo: create pop up notification that they are unable to post right now
+            //TODO: create pop up notification that they are unable to post right now
         }
     }];
 }
@@ -94,6 +94,7 @@
     UIGraphicsEndImageContext();
     
     return newImage;
+
 }
 
 

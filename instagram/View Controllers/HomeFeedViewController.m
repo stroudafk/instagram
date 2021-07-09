@@ -10,6 +10,7 @@
 #import "PostCell.h"
 #import "Post.h"
 #import "UIImageView+AFNetworking.h"
+#import "DetailViewController.h"
 
 @interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource>
 - (IBAction)didTapLogout:(id)sender;
@@ -43,6 +44,14 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if([segue.identifier isEqual:@"PostDetailSegue"]){
+        UITableViewCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
+        
+        DetailViewController *detailViewController = [segue destinationViewController];
+        Post *postDetails  = self.posts[indexPath.row];
+        detailViewController.post = postDetails;
+    }
     
 }
 
@@ -60,10 +69,31 @@
     self.view.window.rootViewController = tabBarC;
     
 }
+- (void) fetchPosts{
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query orderByDescending:@"createdAt"];
+    [query includeKey:@"author"];
+    query.limit = 20;
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if (posts) {
+            self.posts = posts;
+            [self.tableView reloadData];
+            
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+    
+    [self.refreshControl endRefreshing];
+}
+
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     PostCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
     
-    Post *post = self.posts[indexPath.section];
+    Post *post = self.posts[indexPath.row];
+    
+    cell.usernameLabel.text = post.author.username;
     cell.captionLabel.text = post.caption;
     
     NSURL *imageURL = [NSURL URLWithString:post.image.url];
@@ -76,22 +106,6 @@
     return [self.posts count];
 }
 
-- (void) fetchPosts{
-    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
-    [query orderByDescending:@"createdAt"];
-    query.limit = 20;
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
-        if (posts) {
-            self.posts = posts;
-            [self.tableView reloadData];
-        } else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
-    
-    [self.tableView reloadData];
-    [self.refreshControl endRefreshing];
-}
+
 
 @end
