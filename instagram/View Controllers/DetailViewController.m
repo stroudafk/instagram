@@ -25,6 +25,14 @@
     self.usernameLabel.text = self.post.author.username;
     self.captionLabel.text = self.post.caption;
     
+    //format date
+    NSString *createdAtString = self.post.createdAt.description;
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss Z";
+    NSDate *date = [formatter dateFromString:createdAtString];
+    self.timestampLabel.text = date.shortTimeAgoSinceNow;
+    
 }
 
 /*

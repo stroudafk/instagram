@@ -16,9 +16,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *captionTextField;
 - (IBAction)didTapCancel:(id)sender;
 
-
-
-
 @end
 
 @implementation NewPostViewController
@@ -72,9 +69,9 @@
     
     // Get the image captured by the UIImagePickerController
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
-    UIImage *resizedImage = [self resizeImage:editedImage withSize:self.postImage.frame.size];
+    UIImage *resizedImage = [self resizeImage:editedImage withSize:CGSizeMake(400, 400)];
+    
     //TODO: resize image for parse, then send to parse
-
     [self.postImage setImage:resizedImage];
     
     // Dismiss UIImagePickerController to go back to your original view controller
@@ -94,7 +91,6 @@
     UIGraphicsEndImageContext();
     
     return newImage;
-
 }
 
 
