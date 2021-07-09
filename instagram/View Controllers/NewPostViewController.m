@@ -18,6 +18,7 @@
 
 
 
+
 @end
 
 @implementation NewPostViewController
@@ -29,15 +30,18 @@
 }
 
 - (IBAction)didTapCancel:(id)sender{
-//    [self dismissViewControllerAnimated:true completion:nil];
-    [self.navigationController popViewControllerAnimated:YES];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UITabBarController *tabBarC = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
+    self.view.window.rootViewController = tabBarC;
 }
 
 - (IBAction)didTapPost:(id)sender {
     [Post postUserImage:self.postImage.image withCaption:self.captionTextField.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if(succeeded){
             NSLog(@"Sucessful post");
-            [self dismissViewControllerAnimated:true completion:nil];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UITabBarController *tabBarC = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
+            self.view.window.rootViewController = tabBarC;
         }
         else{
             NSLog(@"Failed to post");

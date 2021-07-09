@@ -47,7 +47,6 @@
             NSLog(@"User logged in successfully");
             
             //TODO: display view controller that needs to shown after successful login
-//            [self performSegueWithIdentifier:@"loginSegue" sender:nil];
             
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             UITabBarController *tabBarC = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];

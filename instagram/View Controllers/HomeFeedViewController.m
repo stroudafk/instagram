@@ -16,13 +16,12 @@
 - (IBAction)didTapNewPost:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *posts;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 
 @end
 
 @implementation HomeFeedViewController
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,6 +31,9 @@
     [self fetchPosts];
     // Do any additional setup after loading the view.
     [self.tableView reloadData];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
 
@@ -52,7 +54,11 @@
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         // PFUser.current() will now be nil
     }];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UITabBarController *tabBarC = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
+    self.view.window.rootViewController = tabBarC;
+    
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     PostCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PostCell"];
@@ -82,8 +88,10 @@
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
-        
     }];
+    
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
 }
 
 @end
