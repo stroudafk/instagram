@@ -70,11 +70,10 @@
         } else {
             NSLog(@"User registered successfully");
             //todo: 
-            //[newUser setObject:<#(nonnull id)#> forKey:<#(nonnull NSString *)#>]
+            //[newUser setObject:<#(nonnull id)#> forKey:@"profPic"];
             //[newUser saveInBackground];
             //[newUser objectForKey:<#(nonnull NSString *)#>]
             // manually segue to logged in view
-            //[self performSegueWithIdentifier:@"loginSegue" sender:nil];
             
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             UITabBarController *tabBarC = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
